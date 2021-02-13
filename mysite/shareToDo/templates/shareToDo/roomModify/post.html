@@ -1,0 +1,11 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:room_modify_post' %}" method="post">
+{% csrf_token %}
+<input type="text" name="id" value="{{room.id}}"><br>
+<input type="text" name="room_name" value="{{room.room_name}}"><br>
+<input type="radio" name="open_close" value="True">Open room
+<input type="radio" name="open_close" value="False" checked>Close room <br>
+<input type="submit" value="Vote">
+<li><a href="{% url 'shareToDo:room_modify_post' %}"></a></li>
+</form>

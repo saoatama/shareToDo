@@ -1,0 +1,8 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:post' %}" method="post">
+{% csrf_token %}
+<input type="text" name="category_name" value="タスク名">
+<input type="submit" value="Vote">
+<li><a href="{% url 'shareToDo:post' %}"></a></li>
+</form>

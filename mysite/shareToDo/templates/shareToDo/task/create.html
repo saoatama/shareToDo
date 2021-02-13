@@ -1,0 +1,36 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:task_post' %}" method="post">
+{% csrf_token %}
+<label for="task_name">タスク名</label>
+<input type="text" name="task_name" value="ルーム名"><br>
+<label for="author">ユーザー</label>
+<select name="author">
+{% for user in users %}
+<option value="{{user.user_id.id}}">{{user.user_id.user_name}}</option>
+{% endfor %}
+</select>
+<br>
+<label for="deadline">期限</label>
+<input type="datetime-local" name="deadline" value="21-01-01"><br>
+<label for="category">カテゴリ</label>
+<select name="category">
+{% for category in categories %}
+<option value="{{category.id}}">{{category.category_name}}</option>
+{% endfor %}
+</select>
+<br>
+<label for="user">ターゲットとなるユーザー</label>
+{% for user in users %}
+<input type="checkbox" name="target_user" value="{{user.user_id.id}}">{{user.user_id.user_name}}
+{% endfor %}
+<br>
+<label for="user">ワーカーとなるユーザー</label>
+{% for user in users %}
+<input type="checkbox" name="worker_user" value="{{user.user_id.id}}">{{user.user_id.user_name}}
+{% endfor %}
+<br>
+<input type="hidden" name="room" value="{{room.id}}">
+<input type="submit" value="タスクを登録">
+<li><a href="{% url 'shareToDo:task_post' %}"></a></li>
+</form>
