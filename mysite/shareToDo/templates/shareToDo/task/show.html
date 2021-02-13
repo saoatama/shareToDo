@@ -1,0 +1,19 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h1>タスク名：{{task.task_name}}</h1>
+{% if task.author %}
+<p>タスク作成者：{{task.author.user_name}}</p>
+{% else %}
+<p>タスク作成者：未登録</p>
+{% endif %}
+{% if task.deadline %}
+<p>期限：{{task.deadline}}</p>
+{% else %}
+<p>期限：期限なし</p>
+{% endif %}
+{% if task.category %}
+<p>カテゴリー名：{{task.category.category_name}}</p>
+{% else %}
+<p>カテゴリー名：未登録</p>
+
+{% endif %}

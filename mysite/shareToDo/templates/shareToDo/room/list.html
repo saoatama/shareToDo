@@ -1,0 +1,15 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h1>{{room.room_name}}</h1>
+
+<h2>メンバ一覧</h2>
+{% for content in list %}
+{{content.user_id.user_name}}
+{% endfor %}
+
+<h2>タスク一覧</h2>
+{% for task in task_list %}
+<ul>
+  <li><a href="{% url 'shareToDo:task_detail' task.id %}">{{task.task_name }}</a></li>
+</ul>
+
+{% endfor %}
