@@ -1,0 +1,51 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:task_modify_post' %}" method="post">
+{% csrf_token %}
+<label for="task_name">タスク名</label>
+<input type="text" name="task_name" value="{{task.task_name}}"><br>
+<label for="deadline">期限</label>
+<input type="datetime-local" name="deadline" value="task.deadline"><br>
+<label for="category">カテゴリ</label>
+<select name="category">
+{% for category in categories %}
+{% if task.category == category %}
+<option value="{{category.id}}" selected>{{category.category_name}}</option>
+{% else %}
+<option value="{{category.id}}">{{category.category_name}}</option>
+{% endif %}
+{% endfor %}
+</select>
+<br>
+<label>ターゲットから削除するユーザー</label>
+<ul>
+  {% for part in participants %}
+  {% if part.role == 1 %}
+  <li><input type="checkbox" name="target_user_delete" value="{{part.id}}" >{{part.user.user_name}}</li>
+  {% endif %}
+  {% endfor %}
+</ul>
+
+<label for="user">ターゲットとなるユーザー</label>
+{% for user in users %}
+  <input type="checkbox" name="target_user" value="{{user.user_id.id}}" >{{user.user_id.user_name}}
+{% endfor %}
+
+<br>
+<label>ワーカーから削除するユーザー</label>
+<ul>
+  {% for part in participants %}
+  {% if part.role == 2 %}
+  <li><input type="checkbox" name="worker_user_delete" value="{{part.id}}" >{{part.user.user_name}}</li>
+  {% endif %}
+  {% endfor %}
+</ul>
+<label for="user">ワーカーとなるユーザー</label>
+{% for user in users %}
+<input type="checkbox" name="worker_user" value="{{user.user_id.id}}">{{user.user_id.user_name}}
+{% endfor %}
+<br>
+<input type="hidden" name="task" value="{{task.id}}">
+<input type="submit" value="タスクを編集">
+<li><a href="{% url 'shareToDo:task_modify_post' %}"></a></li>
+</form>
