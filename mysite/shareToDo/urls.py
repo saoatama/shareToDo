@@ -22,4 +22,8 @@ urlpatterns = [
     path('user/create_post', views.UserCreateView.create_post, name='user_create_post'),
     path('user/detail/<int:pk>', views.UserDetailView.as_view(), name='user_detail'),
     path('user/my_page/<int:pk>', views.UserMyPageView.as_view(), name='user_my_page'),
+    path('user/my_page_invite/<int:relation>', views.UserMyPageView.invite, name='user_my_page_invite'),
+    path('invite_post/<int:relation>/<int:status>', views.UserMyPageView.invite_post, name='user_my_page_invite_post'),
+    path('invite/<int:pk>', views.InviteView.as_view(), name='invite_user'),
+    path('invite/post', views.InviteView.post, name='invite_user_post'),
 ]

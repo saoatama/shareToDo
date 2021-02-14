@@ -18,13 +18,12 @@
 </select>
 <br>
 <label>ターゲットから削除するユーザー</label>
-<ul>
-  {% for part in participants %}
-  {% if part.role == 1 %}
-  <li><input type="checkbox" name="target_user_delete" value="{{part.id}}" >{{part.user.user_name}}</li>
-  {% endif %}
-  {% endfor %}
-</ul>
+{% for part in participants %}
+{% if part.role == 1 %}
+<input type="checkbox" name="target_user_delete" value="{{part.id}}" >{{part.user.user_name}}
+{% endif %}
+{% endfor %}
+<br>
 
 <label for="user">ターゲットとなるユーザー</label>
 {% for user in users %}
@@ -33,13 +32,12 @@
 
 <br>
 <label>ワーカーから削除するユーザー</label>
-<ul>
-  {% for part in participants %}
-  {% if part.role == 2 %}
-  <li><input type="checkbox" name="worker_user_delete" value="{{part.id}}" >{{part.user.user_name}}</li>
-  {% endif %}
-  {% endfor %}
-</ul>
+{% for part in participants %}
+{% if part.role == 2 %}
+<input type="checkbox" name="worker_user_delete" value="{{part.id}}" >{{part.user.user_name}}
+{% endif %}
+{% endfor %}
+<br>
 <label for="user">ワーカーとなるユーザー</label>
 {% for user in users %}
 <input type="checkbox" name="worker_user" value="{{user.user_id.id}}">{{user.user_id.user_name}}
@@ -47,5 +45,4 @@
 <br>
 <input type="hidden" name="task" value="{{task.id}}">
 <input type="submit" value="タスクを編集">
-<li><a href="{% url 'shareToDo:task_modify_post' %}"></a></li>
 </form>

@@ -157,3 +157,46 @@ class UserDetailView(generic.DetailView):
 class UserMyPageView(generic.DetailView):
 	model = User
 	template_name = 'shareToDo/user/myPage.html'
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		user = User.objects.get(id=self.kwargs['pk'])
+		relations = UserRoomRelation.objects.filter(user_id=user)
+		context['user'] = user
+		context['relations'] = relations
+		return context
+	def invite(request, relation):
+		template = loader.get_template('shareToDo/invite/post.html')
+		context = {"request":request, "relation":relation}
+		return HttpResponse(template.render(context))
+
+	def invite_post(request, relation,status):
+		userRoomRelation = UserRoomRelation.objects.get(id=relation)
+		userRoomRelation.status = status
+		userRoomRelation.save()
+		template = loader.get_template('shareToDo/invite/answer.html')
+		context = {"relation": userRoomRelation}
+		return HttpResponse(template.render(context))
+
+class InviteView(generic.TemplateView):
+	model = UserRoomRelation
+	template_name = 'shareToDo/invite/choose.html'
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		room = Room.objects.get(id=self.kwargs['pk'])
+		relations = UserRoomRelation.objects.filter(room_id=room)
+		exclude_arry = []
+		for relation in relations:
+			exclude_arry.append(relation.user_id.id)
+
+		users = User.objects.exclude(id__in=exclude_arry)
+		context['room'] = room
+		context['users'] = users
+		return context
+
+	def post(request):
+		users = request.POST['user']
+		room = Room.objects.get(id=request.POST['room_id'])
+		for user_id in users:
+			user = User.objects.get(id=user_id)
+			relation = UserRoomRelation.objects.create(user_id=user, room_id=room, status=1)
+		return HttpResponse("招待を送信しました")

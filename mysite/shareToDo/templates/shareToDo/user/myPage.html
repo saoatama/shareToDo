@@ -1,2 +1,18 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <h2>{{user.user_name}}のページ</h2>
+
+{% if relations %}
+<h2>所属ルーム</h2>
+{% for relation in relations %}
+{% if relation.status == 0 %}
+<a href="{% url 'shareToDo:room_top' relation.id %}">{{ relation.room_id.room_name }}</a>
+{% endif %}
+{% endfor %}
+
+<h2>招待ルーム</h2>
+{% for relation in relations %}
+{% if relation.status == 1 %}
+<a href="{% url 'shareToDo:user_my_page_invite' relation.id %}">{{ relation.room_id.room_name }}</a>
+{% endif %}
+{% endfor %}
+{% endif %}

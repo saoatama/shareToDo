@@ -13,6 +13,7 @@ class User(models.Model):
 class UserRoomRelation(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
+    status = models.IntegerField(default=1)
 
 class Category(models.Model):
     category_name = models.CharField(max_length=200)
