@@ -7,7 +7,7 @@ class Room(models.Model):
 
 class User(models.Model):
     user_name = models.CharField(max_length=200)
-    est_date = models.DateTimeField('date published')
+    est_date = models.DateTimeField('date published', null=True)
     user_room = models.ManyToManyField("Room", through="UserRoomRelation",)
 
 class UserRoomRelation(models.Model):

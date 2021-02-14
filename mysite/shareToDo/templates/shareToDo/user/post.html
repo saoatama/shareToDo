@@ -1,0 +1,6 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{{user.user_name}}さんを作成しました
+<br>
+<a href="{% url 'shareToDo:room_create' %}">ルームを作成する</a>
+<br>
+<a href="{% url 'shareToDo:user_my_page' user.id %}">my page</a>

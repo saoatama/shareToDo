@@ -18,4 +18,8 @@ urlpatterns = [
     path('<int:pk>/room_top', views.RoomTopView.as_view(), name='room_top'),
     path('<int:room_id>/<int:pk>/task_modify', views.TaskModifyView.as_view(), name='task_modify'),
     path('task_modify_post', views.TaskModifyView.task_modify_post, name='task_modify_post'),
+    path('user/create', views.UserCreateView.as_view(), name='user_create'),
+    path('user/create_post', views.UserCreateView.create_post, name='user_create_post'),
+    path('user/detail/<int:pk>', views.UserDetailView.as_view(), name='user_detail'),
+    path('user/my_page/<int:pk>', views.UserMyPageView.as_view(), name='user_my_page'),
 ]

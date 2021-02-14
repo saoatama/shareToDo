@@ -138,3 +138,22 @@ class TaskModifyView(generic.TemplateView):
 class CategoryView(generic.DetailView):
     model = Category
     template_name = 'shareToDo/post.html'
+
+class UserCreateView(generic.TemplateView):
+	model = User
+	template_name = 'shareToDo/user/create.html'
+
+	def create_post(request):
+		user_name = request.POST['user_name']
+		user = User.objects.create(user_name=user_name)
+		template = loader.get_template('shareToDo/user/post.html')
+		context = {'user':user}
+		return HttpResponse(template.render(context))
+
+class UserDetailView(generic.DetailView):
+	model = User
+	template_name = 'shareToDo/user/detail.html'
+
+class UserMyPageView(generic.DetailView):
+	model = User
+	template_name = 'shareToDo/user/myPage.html'
