@@ -1,0 +1,2 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<a href="{% url 'shareToDo:room_top' task.room.id %}" > {{task.room.room_name}}</a>

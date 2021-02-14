@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponse
@@ -55,7 +55,7 @@ class TaskView(generic.TemplateView):
 	def task_post(request):
 		category = Category.objects.get(id=request.POST['category'])
 		author = User.objects.get(id=request.POST['author'])
-		deadline =deadline=request.POST['deadline']
+		deadline = request.POST['deadline']
 		room = Room.objects.get(id=request.POST['room'])
 		if deadline == "":
 			task = Task.objects.create(task_name=request.POST['task_name'], author=author, category=category, room=room)
@@ -65,10 +65,10 @@ class TaskView(generic.TemplateView):
 		worker_users = request.POST.getlist('worker_user')
 		for user in target_users:
 			target_user = User.objects.get(id=user)
-			particioant = Participant.objects.create(user=target_user, task=task, role=1)
+			participant = Participant.objects.create(user=target_user, task=task, role=1)
 		for user in worker_users:
 			worker_user = User.objects.get(id=user)
-			particioant = Participant.objects.create(user=worker_user, task=task, role=2)
+			participant = Participant.objects.create(user=worker_user, task=task, role=2)
 		return HttpResponse("done")
 
 class TaskListView(generic.ListView):
@@ -78,9 +78,62 @@ class TaskListView(generic.ListView):
 	def get_queryset(self):
 		"""Return the last five published questions."""
 		return Task.objects.all()
+
 class TaskDetailView(generic.DetailView):
 	model = Task
 	template_name = 'shareToDo/task/show.html'
+
+class TaskModifyView(generic.TemplateView):
+	model = Task
+	template_name = 'shareToDo/taskModify/modify.html'
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		room = Room.objects.get(id=self.kwargs['room_id'])
+		context['room'] = room
+		context['users'] = UserRoomRelation.objects.filter(room_id=room)
+		context['categories'] = Category.objects.all()
+		task = Task.objects.get(id=self.kwargs['pk'])
+		context['task'] = task
+		context['participants'] = Participant.objects.filter(task=task)
+		return context
+
+	def task_modify_post(request):
+		category = Category.objects.get(id=request.POST['category'])
+		deadline = request.POST['deadline']
+		task = Task.objects.get(id=request.POST['task'])
+		if task.task_name != request.POST['task_name']:
+			task.task_name=request.POST['task_name']
+		if task.category != request.POST['category']:
+			category = Category.objects.get(id=request.POST['category'])
+			task.category = category
+		if deadline != task.deadline and deadline != "":
+			task.deadline = deadline
+		task.save()
+
+		# 削除分
+		target_user_delete = request.POST.getlist('target_user_delete')
+		worker_user_delete = request.POST.getlist('worker_user_delete')
+
+		for participant in target_user_delete:
+			part = Participant.objects.get(id=participant)
+			part.delete()
+		for participant in worker_user_delete:
+			part = Participant.objects.get(id=participant)
+			part.delete()
+
+		# 追加分
+		target_users = request.POST.getlist('target_user')
+		worker_users = request.POST.getlist('worker_user')
+
+		for user in target_users:
+			target_user = User.objects.get(id=user)
+			participant = Participant.objects.create(user=target_user, task=task, role=1)
+		for user in worker_users:
+			worker_user = User.objects.get(id=user)
+			participant = Participant.objects.create(user=worker_user, task=task, role=2)
+		template = loader.get_template('shareToDo/taskModify/participant.html')
+		context = {"task":task}
+		return HttpResponse(template.render(context))
 
 class CategoryView(generic.DetailView):
     model = Category

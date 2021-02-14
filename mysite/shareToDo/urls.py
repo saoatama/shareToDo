@@ -15,5 +15,7 @@ urlpatterns = [
     path('task_post', views.TaskView.task_post, name='task_post'),
     path('task_list', views.TaskListView.as_view(), name='task_list'),
     path('<int:pk>/task_detail', views.TaskDetailView.as_view(), name='task_detail'),
-    path('<int:pk>/room_top', views.RoomTopView.as_view(), name='room_top')
+    path('<int:pk>/room_top', views.RoomTopView.as_view(), name='room_top'),
+    path('<int:room_id>/<int:pk>/task_modify', views.TaskModifyView.as_view(), name='task_modify'),
+    path('task_modify_post', views.TaskModifyView.task_modify_post, name='task_modify_post'),
 ]

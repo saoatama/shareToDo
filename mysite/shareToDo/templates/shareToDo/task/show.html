@@ -17,3 +17,6 @@
 <p>カテゴリー名：未登録</p>
 
 {% endif %}
+<a href="{% url 'shareToDo:task_modify' task.room.id task.id %}">{{task.task_name }}を編集する</a>
+<br>
+<input type="button" value="戻る" onClick="javascript:history.go(-1);">
