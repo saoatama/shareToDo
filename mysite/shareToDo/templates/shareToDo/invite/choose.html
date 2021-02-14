@@ -1,0 +1,12 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:invite_user_post' %}" method="post">
+{% csrf_token %}
+<h2>{{room.room_name}}ルームに追加したいユーザーを選んでください</h2>
+{% for user in users %}
+<input type="checkbox" name="user" value="{{user.id}}">{{user.user_name}}
+<br>
+{% endfor %}
+<input type="hidden" name="room_id" value="{{room.id}}">
+<input type="submit" value="Vote">
+</form>

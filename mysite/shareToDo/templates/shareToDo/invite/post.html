@@ -1,0 +1,6 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{{relation}}
+
+<a href="{% url 'shareToDo:user_my_page_invite_post' relation 0 %}">参加する</a>
+<br>
+<a href="{% url 'shareToDo:user_my_page_invite_post' relation 2 %}">参加しない</a>

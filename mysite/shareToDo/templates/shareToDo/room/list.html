@@ -2,9 +2,12 @@
 <h1>{{room.room_name}}</h1>
 
 <h2>メンバ一覧</h2>
-{% for content in list %}
-{{content.user_id.user_name}}
-{% endfor %}
+<ul>
+  {% for content in list %}
+  <li>{{content.user_id.user_name}}</li>
+  {% endfor %}
+</ul>
+
 
 <h2>タスク一覧</h2>
 {% for task in task_list %}
@@ -13,3 +16,4 @@
 </ul>
 
 {% endfor %}
+<input type="button" value="戻る" onClick="javascript:history.go(-1);">

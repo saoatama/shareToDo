@@ -1,0 +1,9 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if relation.status == 0 %}
+<p>{{ relation.room_id.room_name}}に参加しました</p>
+<a href="{% url 'shareToDo:room_top' relation.room_id.id %}">ルームを覗いてみる</a>
+<br>
+{% elif relation.status == 2 %}
+<p>{{ relation.room_id.room_name}}への参加を却下しました</p>
+{% endif %}
+<a href="{% url 'shareToDo:user_my_page' relation.user_id.id %}">マイページに戻る</a>
