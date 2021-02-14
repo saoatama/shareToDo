@@ -1,0 +1,10 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'shareToDo:user_create_post' %}" method="post">
+{% csrf_token %}
+<label>ユーザー名</label>
+<input type="text" name="user_name" value="ユーザー名">
+<br>
+<input type="submit" value="ユーザー登録">
+
+</form>
