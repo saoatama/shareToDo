@@ -59,16 +59,3 @@
 |1|勉強|
 |2|支払い|
 |3|提出|
-
-## ページ
-1. トップページ
- shareTodo/index
-2. ルーム作成ページ
- shareTodo/room/create
- shareTodo/room/edit/
- shareTodo/room/delete/
- shareTodo/room/
-3. タスク登録ページ
- shareTodo/task/create
- shareTodo/task/edit
- shareTodo/task/delete
